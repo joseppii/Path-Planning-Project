@@ -109,33 +109,65 @@ int main() {
           }
 
           bool too_close = false;
+          bool turn_left = false;
+          bool turn_right = false;
 
           for(int i = 0; i < sensor_fusion.size(); i++)
           {
+            int check_lane = -1;
             float d = sensor_fusion[i][6];
-            if(d<(2+4*lane+2) && d > (2+4*lane-2) )
-            {
-              double vx = sensor_fusion[i][3];
-              double vy = sensor_fusion[i][4];
-              double check_speed = sqrt(vx*vx+vy*vy);
-              double check_car_s = sensor_fusion[i][5];
+            if (d >0 && d<4)
+              check_lane = 0;
+            else if (d>4 && d<8)
+              check_lane = 1;
+            else if (d>8 && d<12)
+              check_lane =2;
+            else 
+              continue;
 
-              check_car_s+=((double)prev_size*.02*check_speed);
+            double vx = sensor_fusion[i][3];
+            double vy = sensor_fusion[i][4];
+            double check_speed = sqrt(vx*vx+vy*vy);
+            double check_car_s = sensor_fusion[i][5];
+
+            check_car_s+=((double)prev_size*.02*check_speed);
+            
+            if(d<(2+4*lane+2) && d > (2+4*lane-2))
+            {
               if((check_car_s > car_s) && ((check_car_s-car_s) < 30) )
               {
                 //ref_vel = 29.5;
-                 too_close = true;
-                 if (lane > 0)
+                 too_close = true;                
+                 /*if (lane > 0)
                  {
                    lane = 0;
-                 }
-              }
+                 }*/
+              } 
+            } else if (d<(2+4*check_lane+2) && d > (2+4*check_lane-2)) {
+              if((car_s - check_car_s) > 5 && ((check_car_s-car_s) > 10) )
+              {
+                //ref_vel = 29.5;
+                if (lane-check_lane > 0)
+                  turn_right = true;                
+                else if (check_lane-lane > 0) 
+                  turn_left = true;
+              } 
             }
           }
 
-          if (too_close)
+          if (too_close && !turn_left && !turn_right)
           {
             ref_vel -= .224;
+          }
+          else if(too_close && !turn_left && turn_right && lane > 0)
+          {
+            lane--;
+          }
+          else if (too_close && turn_left && !turn_right && lane <3) {
+            lane++;
+          }
+          else if (too_close && turn_left && turn_right && lane < 3) {
+            lane++;
           }
           else if (ref_vel < 49.5)
           {
