@@ -28,6 +28,10 @@ The car was able to navigate itself around the track for more than 4.32 miles, w
 
 [![Path Planning](http://img.youtube.com/vi/tEJZy5zXtog/0.jpg)](http://www.youtube.com/watch?v=tEJZy5zXtog)
 
+### Reflection & improvements
+
+While the generated trajectories where quite smooth, the lane changing strategy could be improved. Currently, it is based on absolute distances, that where tuned by trial and error. Despite the fact that there are no collisions during lane changes, sometimes the car takes a lot of time to overtake other cars in situations where there are several vehicles driving at approximately the same speed. A cost function could be used for deciding when to change lane. In a similar manner, acceleration and deceleration could be decided using a cost function, as currently the car does not change its speed according to the distance of the car in front of it, responding slowly in cases of danger.
+
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).  
 
