@@ -24,7 +24,7 @@ We then transform the coordinates of the points we created so far, to use the ca
 
 ### Results
 
-The car was able to navigate itself around the track for more than 4.32 miles, without exceeding the speed limit, avoiding collisions with other cars, while maintaining a smooth ride, as acceleration and jerk was kept within comfortable limits. This can be verified on the attached video.
+The car was able to navigate itself around the track for more than 4.32 miles, without exceeding the speed limit, avoiding collisions with other cars, while maintaining a smooth ride, as acceleration and jerk were kept within comfortable limits. This can be verified using the attached video.
 
 [![Path Planning](http://img.youtube.com/vi/tEJZy5zXtog/0.jpg)](http://www.youtube.com/watch?v=tEJZy5zXtog)
 
